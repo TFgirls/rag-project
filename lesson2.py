@@ -5,16 +5,16 @@ import pdfplumber
 pdf_files = glob.glob("pdfs/*.pdf")
 
 with pdfplumber.open(pdf_files[0]) as pdf:
-    page = pdf.pages[0]             #先只看第一页
-    tables = page.extract_tables()   #提取这一页的所有表格
-    table = tables[0]
+    for page in pdf.pages:
+        tables = page.extract_tables()   #提取这一页的所有表格
+        table = tables[0]
 
-    for row in table:               #外层循环：走每一行
-        cleaned = []                #这一行清洗后的结果（空列表当容器）
-        for cell in row:            #内层循环：走这一行的每个格子
-            if cell is None or cell == "":
-                cleaned.append("")  #空格子 -> 放个空字符串占位
-            else:
-                name = cell.split("\n")[0]  #只取第一行 = 课程名
-                cleaned.append(name)
-        print(cleaned)
+        for row in table:               #外层循环：走每一行
+            cleaned = []                #这一行清洗后的结果（空列表当容器）
+            for cell in row:            #内层循环：走这一行的每个格子
+                if cell is None or cell == "":
+                    cleaned.append("")  #空格子 -> 放个空字符串占位
+                else:
+                    name = "、".join(cell.split("\n"))  #只取第一行 = 课程名
+                    cleaned.append(name)
+            print(cleaned)

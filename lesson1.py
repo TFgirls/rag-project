@@ -1,20 +1,18 @@
-#lesson1.py -- 第一个脚本：读课表PDF，把文字抠出来打印
-import glob         #用通配符找文件
-import pdfplumber   #专门读PDF的库
+import glob
+import pdfplumber
 
-#第一步:找到 pdfs 文件夹里所有的PDF
+# 1. 找 PDF
 pdf_files = glob.glob("pdfs/*.pdf")
-print(f"找到 {len(pdf_files)}个PDF:")
 
-for name in pdf_files:
-    print(" -", name)
-
-#第二步：打开第一个PDF
+# 2. 读第一个 PDF,把所有页文字拼到一个大字符串里
+all_text = ""
 with pdfplumber.open(pdf_files[0]) as pdf:
-    print(f"\n正在读：{pdf_files[0]}，共 {len(pdf.pages)}页\n")
-
-    #第三步：一页一页把文字抠出来打印
-    for i,page in enumerate(pdf.pages):
+    for page in pdf.pages:
         text = page.extract_text()
-        print(f"=========第 {i+1} 页 =========")
-        print(text)
+        all_text += text + "\n\n"  # += 把每页文字「追加」到 all_text后面
+
+# 3. 把拼好的文字写进一个 txt 文件
+with open("课表文字.txt", "w", encoding="utf-8") as f:
+    f.write(all_text)
+
+print("写好了!文字已存到 课表文字.txt")
