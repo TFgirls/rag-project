@@ -3,3 +3,5 @@ __pycache__/
 .idea/
 *.xlsx
 课表文字.txt
+venv/
+
