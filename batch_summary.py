@@ -11,7 +11,7 @@ DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")        #把key存进变量
 def summarize(text):
     url = "https://api.deepseek.com/chat/completions"
     headers = {
-        "Authorization": "Bearer {DEEPSEEK_API_KEY}>",
+        "Authorization": "Bearer {DEEPSEEK_API_KEY}",
         "Content-Type": "application/json",
     }
     data = {
